@@ -18,7 +18,7 @@ export default ({ children, title = 'Kafka App' }) => String.raw`
       <header class="text-center text-black text-lg">
         <h1>Kafka App</h1>
       </header>
-      <main class="max-w-screen-md">${children}</main>
+      <main>${children}</main>
     </body>
   </html>
 `
