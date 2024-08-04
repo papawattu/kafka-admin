@@ -1,0 +1,38 @@
+---
+version: '3'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: ${ZK_HOST}
+    hostname: ${ZK_HOST}
+    ports:
+      - '${ZK_PORT}:${ZK_PORT}'
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: ${ZK_PORT}
+
+  broker:
+    image: confluentinc/cp-kafka:latest
+    container_name: ${BROKER_HOST}
+    hostname: ${BROKER_HOST}
+    ports:
+      - '${BROKER_PORT}:${BROKER_PORT}'
+    depends_on:
+      - ${ZK_HOST}
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: '${ZK_HOST}:${ZK_PORT}'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://${BROKER_HOST}:${BROKER_PORT}'
+      KAFKA_ADVERTISED_HOST_NAME: ${BROKER_HOST}
+      HOSTNAME_COMMAND: "route -n | awk '/UG[ \t]/{print $$2}'"
+      #      KAFKA_SSL_KEYSTORE_FILENAME: broker.keystore.jks
+      #      KAFKA_SSL_KEYSTORE_CREDENTIALS: cert_creds
+      #      KAFKA_SSL_KEY_CREDENTIALS: cert_creds
+      #      KAFKA_SSL_TRUSTSTORE_FILENAME: broker.truststore.jks
+      #      KAFKA_SSL_TRUSTSTORE_CREDENTIALS: cert_creds
+      #      KAFKA_SSL_CLIENT_AUTH: 'required'
+      KAFKA_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_SECURITY_INTER_BROKER_PROTOCOL: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ./secrets:/etc/kafka/secrets

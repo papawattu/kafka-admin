@@ -1,0 +1,23 @@
+{
+  "name": "kafka-admin",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-vm-modules --watch-path ./src src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "kafkajs": "^2.2.4"
+  },
+  "devDependencies": {
+    "lit-html": "^3.1.4",
+    "tailwindcss": "^3.4.7"
+  }
+}
